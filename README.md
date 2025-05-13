@@ -46,12 +46,12 @@ int fs_delete(FileSystem *fs, const char *path)
 **Структура данных:**  
 ```c
 typedef struct {
-    char *path;     // Путь к файлу
-    char *content;  // Содержимое файла
+    char *path;     
+    char *content;  
 } FileEntry;
 
 typedef struct {
-    FileEntry *entries;  // Массив файлов
-    size_t count;        // Количество файлов
+    FileEntry *entries;  
+    size_t count;       
 } FileSystem;
 
