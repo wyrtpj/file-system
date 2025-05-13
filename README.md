@@ -15,4 +15,43 @@ int fs_load(const char *fname, FileSystem *fs)
 
 ### **`fs_select`**  
 
+int fs_select(const FileSystem *fs, const char *path, char **out_content)
+
+**Параметры:**  
+- `const FileSystem *fs` — указатель на структуру файловой системы  
+- `const char *path`     — путь к искомому файлу (строка)  
+- `char **out_content`   — двойной указатель для возврата содержимого файла  
+
+**Возвращаемое значение:**  
+- `0` — файл найден, содержимое скопировано в `out_content`  
+- `-1` — файл не найден  
+
+---
+
+### **`fs_delete`**  
+
+int fs_delete(FileSystem *fs, const char *path)
+
+**Параметры:**  
+- `FileSystem *fs`    — указатель на структуру файловой системы  
+- `const char *path`  — путь к удаляемому файлу (строка)  
+
+**Возвращаемое значение:**  
+- `0` — файл успешно удален  
+- `-1` — файл не найден  
+
+---
+
+## Вспомогательные элементы
+**Структура данных:**  
+```c
+typedef struct {
+    char *path;     // Путь к файлу
+    char *content;  // Содержимое файла
+} FileEntry;
+
+typedef struct {
+    FileEntry *entries;  // Массив файлов
+    size_t count;        // Количество файлов
+} FileSystem;
 
