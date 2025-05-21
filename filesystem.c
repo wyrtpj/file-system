@@ -110,6 +110,69 @@ int fs_save(const char *fname, const FileSystem *fs) {
             fputc('\n', f);
     }
     fclose(f);
+    // 1.1. Функция для создания нового файла
+void create_new_file(const char* filename, const char* content) {
+    // Открываем файловую систему в режиме добавления (append)
+    FILE* fs = fopen("filesystem.txt", "a");
+    if (!fs) {
+        perror("Failed to open filesystem");
+        return;
+    }
+    
+    // Записываем имя файла и его содержимое
+    fprintf(fs, "\nFILE: %s\n", filename);
+    fprintf(fs, "%s", content);
+    
+    fclose(fs);
+}
+
+// 1.2. Функция для изменения существующего файла
+void modify_file(const char* filename, const char* new_content) {
+    FILE* fs = fopen("filesystem.txt", "r");
+    if (!fs) {
+        perror("Failed to open filesystem for reading");
+        return;
+    }
+    
+    // Создаем временный файл
+    FILE* temp = fopen("temp.txt", "w");
+    if (!temp) {
+        perror("Failed to create temp file");
+        fclose(fs);
+        return;
+    }
+    
+    char line[256];
+    int in_target_file = 0;
+    
+    while (fgets(line, sizeof(line), fs)) {
+        // Проверяем, начинается ли строка с "FILE: "
+        if (strstr(line, "FILE: ") == line) {
+            char current_file[256];
+            sscanf(line, "FILE: %255s", current_file);
+            
+            // Если это наш файл - сохраняем заголовок, но не старое содержимое
+            if (strcmp(current_file, filename) == 0) {
+                in_target_file = 1;
+                fprintf(temp, "%s", line); // Сохраняем строку с именем файла
+                fprintf(temp, "%s\n", new_content); // Добавляем новое содержимое
+            } else {
+                in_target_file = 0;
+                fprintf(temp, "%s", line); // Сохраняем строку с другим файлом
+            }
+        } else if (!in_target_file) {
+            // Сохраняем строки, которые не относятся к изменяемому файлу
+            fprintf(temp, "%s", line);
+        }
+    }
+    
+    fclose(fs);
+    fclose(temp);
+    
+    // Заменяем оригинальный файл временным
+    remove("filesystem.txt");
+    rename("temp.txt", "filesystem.txt");
+}
     return 0;
 }
     
