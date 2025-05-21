@@ -54,4 +54,26 @@ typedef struct {
     FileEntry *entries;  
     size_t count;       
 } FileSystem;
+```
 
+### **`create_new_file`**
+**Создание нового файла в файловой системе**
+
+```c
+void create_new_file(const char* filename, const char* content)
+Параметры:
+
+filename - const char* - имя создаваемого файла
+
+content - const char* - содержимое файла
+
+Возвращаемое значение:
+
+Не возвращает значения (void)
+
+Описание:
+Функция добавляет новый файл в конец файловой системы. Формат записи:
+
+Строка с меткой FILE: и именем файла
+
+Содержимое файла
