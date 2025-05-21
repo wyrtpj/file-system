@@ -61,9 +61,9 @@ typedef struct {
 
 **Параметры:**
 
-- 'filename' - 'const char*' - имя создаваемого файла
+- `filename` - `const char*` - имя создаваемого файла
 
-- 'content' - 'const char*' - содержимое файла
+- `content` - `const char*` - содержимое файла
 
 **Возвращаемое значение:**
 
